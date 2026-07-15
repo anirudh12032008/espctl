@@ -92,4 +92,14 @@ class ESPCtl {
         }
         return nullptr;
     }
+
+
+    void handleLine(char *line){
+        if (line[0] == '\0') return;
+
+        switch (line[0]){
+            case '?': sendSchema(); break;
+            // i'll add more later
+        }
+    }
 }
