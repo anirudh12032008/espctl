@@ -105,7 +105,7 @@ class ESPCtl:
         import pandas as pd # finally back to the peak libs
         rows = self._record_rows or []
         return pd.DataFrame(rows, columns=["timestamp", "widget_id", "value"])
-    def plot_live(self, id, s=30);
+    def plot_live(self, id, s=30):
         import matplotlib.pyplot as plt
         from matplotlib.animation import FuncAnimation
 
