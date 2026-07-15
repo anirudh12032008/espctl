@@ -40,6 +40,37 @@ class ESPCtl {
     }
 
 
+    void addToggle(String id, bool defVal){
+        if ( _widgetCount >= ESPCTL_MAX_WIDGET) return;
+        Widget &w = _widgets[_widgetCount++];
+        w.id = id;
+        w.type = WIDGET_TOGGLE;
+        w.value = defVal ? 1:0;
+    }
+    
+    bool getToggle(String id){
+        Widget *w = findWidget(id);
+        return w ? (w->value != 0) : false;
+    }
+
+    void addValue(String id){
+        if ( _widgetCount >= ESPCTL_MAX_WIDGET) return;
+        Widget &w = _widgets[_widgetCount++];
+        w.id = id;
+        w.type = WIDGET_VALUE;
+        w.value = 0;
+    }
+
+    void addPin(int pin, String label){
+        if (_pinCount >= ESPCTL_MAX_PINS) return;
+        Pin &p = _pins[_pinCount++];
+        p.pin = pin;
+        p.label = label;
+    }
+    
+    
+
+
 
     void update(){
         while (Serial.available()){
@@ -67,6 +98,8 @@ class ESPCtl {
     private:
     enum WidgetType {
         WIDGET_SLIDER,
+        WIDGET_TOGGLE,
+        WIDGET_VALUE
     };
 
     struct Widget {
@@ -75,6 +108,12 @@ class ESPCtl {
         int min;
         int max;
         int value;
+    }
+
+
+    struct Pin {
+        int pin;
+        String label;
     }
 
 
@@ -88,7 +127,7 @@ class ESPCtl {
 
     Widget *findWidget(const String &id){
         for (int i = 0; i < _widgetCount; i++){
-            if (_widget[i].id == id) return &_widgets[i];
+            if (_widgets[i].id == id) return &_widgets[i];
         }
         return nullptr;
     }
@@ -100,6 +139,7 @@ class ESPCtl {
         switch (line[0]){
             case '?': sendSchema(); break;
             // i'll add more later
+            
         }
     }
 
