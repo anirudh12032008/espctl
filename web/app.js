@@ -70,3 +70,18 @@ async function readLoop() {
 
 
 
+function handleLine(line) {
+    if (!line) return;
+    if ( line.startsWith("$S")){
+        renderWidgets(JSON.parse(line.slice(2)));
+    } else if (line.startsWith("$D")){
+        const c = line.lastIndexOf(",");
+        const id = line.slice(2, c);
+        const val = parseFloat(line.slice(c+1));
+        updateValue(id, val);
+    } else if (line.startsWith("$R")){
+        logMonitor("[pin] "+ line.slice(2))
+    } else {
+        logMonitor(line);
+    }
+}
