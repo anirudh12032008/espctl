@@ -146,3 +146,46 @@ function updateVal(id, val){
 }
 
 
+
+
+function drawPlot() {
+    const canvas = document.getElementById("plot");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    if (plotBuf.length>1){
+        let min = Infinity, max = -Infinity;
+        for (const s of plotBuf){
+            if (s.v < min) min = s.v;
+            if (s.v > max) max = s.v;
+        }
+        if (min === max) { min -= 1; max += 1;}
+        const now = Date.now();
+        ctx.beginPath();
+        for (let i = 0; i < plotBuf.length; i++){
+            const s = plotBuf[i];
+            const x = canvas.width - ((now - s.t) / PLOT_WIN) * canvas.width;
+            const y = canvas.height - ((s.v - min)/(max - min)) * (canvas.height -10) -5;
+            if ( i ===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle = "#07c"
+        ctx.stroke();
+        ctx.fillStyle = "#666"
+        ctx.fillText(max.toFixed(1), 4, 12);
+        ctx.fillText(min.toFixed(1), 4, canvas.height - 4);
+        if (plotId) ctx.fillText(plotId, canvas.width - 60, 12)
+    }
+requestAnimationFrame(drawPlot);
+}
+
+
+
+const MONITER_MAX = 200;
+function logMonitor(text){
+    const monitor = document.getElementById("monitor");
+    monitor.textContent += text + "\n";
+    const l = monitor.textContent.split("\n");
+    if (l.length> MONITER_MAX){
+        monitor.textContent = lines.slice(-MONITER_MAX).join("\n");
+    }
+    monitor.scrollTop = monitor.scrollHeight;
+}
