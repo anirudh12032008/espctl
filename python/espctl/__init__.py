@@ -65,4 +65,27 @@ class ESPCtl:
                 return
             self._handle_line(l)
 
+    def __getattr__(self, name):
+        if name in _INT_ATTRS:
+            raise AttributeError(name)
+        self.poll()
+        if name in self._values:
+            return self._values[name]
+        if name in self._widgets:
+            return None
+        raise AttributeError("NO WIDGET NAMED {!r}".format(name))
     
+    def __setattr__(self, name, value):
+        if name in _INT_ATTRS or name.startswith("__"):
+            object.__setattr__(self, name, value)
+            return
+        widgets = self.__dict__.get("_widgets", {})
+        if name in widgets:
+            self._conn.writeL(protocol.formatSet(name, value))
+            self._values[name] = value
+        else:
+            object.__setattr__(self, name, value)
+
+
+    @contextmanager
+    # ahh i'm tired I'll continue on this after dinner ig
