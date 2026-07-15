@@ -38,3 +38,5 @@ def formatPinW(pin,state):
     return ">{},{}".format(pin, 1 if state else 0)
 def formatPinR(pin):
     return "<{}".format(pin)
+
+REQ_SCH = "?"
