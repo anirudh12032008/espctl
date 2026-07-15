@@ -36,7 +36,7 @@ class ESPCtl {
     }
     int getSlider(String id){
         Widget *w = findWidget(id);
-        return w ? (w->value != 0) : false;
+        return w ? w->value :0;
     }
 
 
@@ -69,7 +69,12 @@ class ESPCtl {
     }
     
     
-    
+    void data(String id, float value){
+        Serial.print("$D");
+        Serial.print(id);
+        Serial.print(",");
+        Serial.println(value);
+    }
 
 
     void update(){
@@ -108,13 +113,13 @@ class ESPCtl {
         int min;
         int max;
         int value;
-    }
+    };
 
 
     struct Pin {
         int pin;
         String label;
-    }
+    };
 
 
     Widget _widgets[ESPCTL_MAX_WIDGET];
@@ -212,7 +217,7 @@ class ESPCtl {
                     Serial.print(w.value);
                     break;
                 case WIDGET_VALUE:
-                    Serial.print("value\"")
+                    Serial.print("value\"");
                     break;
             }
 
