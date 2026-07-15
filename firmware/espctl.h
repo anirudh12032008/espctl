@@ -69,7 +69,7 @@ class ESPCtl {
     }
     
     
-
+    
 
 
     void update(){
@@ -139,11 +139,14 @@ class ESPCtl {
         switch (line[0]){
             case '?': sendSchema(); break;
             // i'll add more later
-            
+            case '!': handleSet(line +1); break;
+            case '>': handlePinWrite(line +1); break;
+            case '<': handlePinRead(line + 1); break;
+            default: break;
         }
     }
 
-
+    // "!"
     void handleSet(char *rest){
         char *comma = strchr(rest, ',');
         if (!comma) return;
@@ -155,6 +158,38 @@ class ESPCtl {
     }
 
 
+
+    // ">"
+    void handlePinWrite(char *rest){
+        char *comma = strchr(rest, ',');
+        if (!comma) return;
+        *comma = '\0';
+        int pin = atoi(rest);
+        int state = atoi(comma +1);
+        pinMode(pin, OUTPUT);
+        digitalWrite(pin, state ? HIGH : LOW);
+
+        Serial.print("$R");
+        Serial.print(pin);
+        Serial.print(",");
+        Serial.println(state ? 1:0);
+    }
+
+
+
+
+    // "<"
+    void handlePinRead(char *rest){
+        int pin = atoi(rest);
+        pinMode(pin, INPUT);
+        int state = digitalRead(pin);
+        Serial.print("$R");
+        Serial.print(pin);
+        Serial.print(",");
+        Serial.println(state);
+    }
+
+    // "?"
     void sendSchema(){
         Serial.print("$S{\"widgets\":[");
         for (int i = 0; i < _widgetCount; i++){
@@ -172,13 +207,28 @@ class ESPCtl {
                     Serial.print(",\"value\":");
                     Serial.print(w.value);
                     break;
+                case WIDGET_TOGGLE:
+                    Serial.print("toggle\",\"value\":");
+                    Serial.print(w.value);
+                    break;
+                case WIDGET_VALUE:
+                    Serial.print("value\"")
+                    break;
             }
 
             Serial.print("}");
 
         }
         Serial.print("], \"pins\":[");
-
+        for (int i = 0; i < _pinCount; i++){
+            if (i>0) Serial.print(",");
+            Pin &p = _pins[i];
+            Serial.print("{\"pin\":");
+            Serial.print(p.pin);
+            Serial.print(",\"label\":\"");
+            Serial.print(p.label);
+            Serial.print("\"}");
+        }
 
 
         Serial.println("]}");
