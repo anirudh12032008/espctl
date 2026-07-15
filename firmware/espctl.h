@@ -102,4 +102,48 @@ class ESPCtl {
             // i'll add more later
         }
     }
-}
+
+
+    void handleSet(char *rest){
+        char *comma = strchr(rest, ',');
+        if (!comma) return;
+        *comma = '\0';
+        String id = String(rest);
+        int value = atoi(comma + 1);
+        Widget *w = findWidget(id);
+        if (w) w-> value = value;
+    }
+
+
+    void sendSchema(){
+        Serial.print("$S{\"widgets\":[");
+        for (int i = 0; i < _widgetCount; i++){
+            if (i>0) Serial.print(",");
+            Widget &w = _widgets[i];
+            Serial.print("{\"id\":\"");
+            Serial.print(w.id);
+            Serial.print("\",\"type\":\"");
+            switch(w.type){
+                case WIDGET_SLIDER:
+                    Serial.print("slider\",\"min\":");
+                    Serial.print(w.min);
+                    Serial.print(",\"max\":");
+                    Serial.print(w.max);
+                    Serial.print(",\"value\":");
+                    Serial.print(w.value);
+                    break;
+            }
+
+            Serial.print("}");
+
+        }
+        Serial.print("], \"pins\":[");
+
+
+
+        Serial.println("]}");
+
+    }
+};
+
+#endif
