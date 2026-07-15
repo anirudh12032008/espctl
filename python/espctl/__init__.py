@@ -88,4 +88,49 @@ class ESPCtl:
 
 
     @contextmanager
-    # ahh i'm tired I'll continue on this after dinner ig
+    def record(self, path):
+        self._recording = True
+        self._record_rows = []
+        try:
+            yield self
+        finally:
+            self._recording = False
+            with open(path, 'w', newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(["timestamp", "widget_id", "value"])
+                writer.writerows(self._record_rows)
+
+
+    def to_df(self):
+        import pandas as pd # finally back to the peak libs
+        rows = self._record_rows or []
+        return pd.DataFrame(rows, columns=["timestamp", "widget_id", "value"])
+    def plot_live(self, id, s=30);
+        import matplotlib.pyplot as plt
+        from matplotlib.animation import FuncAnimation
+
+        buf = self._plot_buffers.setdefault(id, [])
+        fig, ax = plt.subplots()
+        line, = ax.plot([], [])
+        ax.set_xlabel("time (s)")
+        ax.set_ylabel(id)
+
+        def update(_frame):
+            self.poll()
+            if not buf:
+                return line,
+            now = time.time()
+            cutoff = now - s
+            while buf and buf[0][0] < cutoff:
+                buf.pop(0)
+            xs = [t-now for t, _ in buf]
+            ys = [v for _, v in buf]
+            line.set_data(xs, ys)
+            ax.relim()
+            ax.autoscale_view()
+            return line,
+
+        anim = FuncAnimation(fig, update, interval=50, cache_frame_data=False)
+        plt.show()
+        return anim
+
