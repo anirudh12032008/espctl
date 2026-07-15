@@ -1,0 +1,4 @@
+body { font-family: monospace; margin: 1rem;}
+#monitor { background: #111; color: #0f0; padding: 0.5rem; height: 150px; overflow-y: auto;}
+.widget { margin: 0.5rem 0}
+canvas { border: 1px solid #ccc;}
