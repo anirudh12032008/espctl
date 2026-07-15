@@ -78,10 +78,71 @@ function handleLine(line) {
         const c = line.lastIndexOf(",");
         const id = line.slice(2, c);
         const val = parseFloat(line.slice(c+1));
-        updateValue(id, val);
+        updateVal(id, val);
     } else if (line.startsWith("$R")){
         logMonitor("[pin] "+ line.slice(2))
     } else {
         logMonitor(line);
     }
 }
+
+
+
+
+
+function renderWidgets(schema){
+    const cont = document.getElementById("widgets");
+    cont.innerHTML ="";
+    id = null;
+    for (const w of schema.widgets){
+        const div = document.createElement("div");
+        div.className = "widget";
+        const label = document.createElement("label");
+        label.textContent = w.id + ": ";
+        div.appendChild(label);
+        if (w.type === "slider"){
+            const input = document.createElement("input");
+            input.type = "range";
+            input.min = w.min;
+            input.max = w.max;
+            input.value = w.value;
+            const readout = document.createElement("span");
+            readout.textContent = w.value;
+            input.addEventListener("input", ()=> {
+                readout.textContent = input.value;
+                sendSet(w.id, input.value);
+            });
+            div.appendChild(input);
+            div.appendChild(readout);
+        } else if ( w.type === "toggle") {
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.checked = !!w.value;
+            input.addEventListener("change", ()=> {
+                sendSet(w.id, input.checked ? 1: 0);
+            });
+            div.appendChild(input);
+        } else if (w.type === "value") {
+            const readout = document.createElement("span");
+            readout.id = "value-" + w.id;
+            readout.textContent = "-";
+            div.appendChild(readout);
+            if (plotId === null) plotId = w.id;
+        }
+        cont.appendChild(div)
+    }
+}
+
+
+function updateVal(id, val){
+    const readout = document.getElementById("value-" +id);
+    if (readout) readout.textContent = val;
+    if ( id === plotId) {
+        plotBuf.push({t: Date.now(), v: val});
+        const cutoff = Date.now() - PLOT_WIN;
+        while (plotBuf.length && plotBuf[0].t < cutoff) plotBuf.shift();
+
+    }
+}
+
+
