@@ -3,10 +3,10 @@ your ESP32 controllable from Python and your browser. No install, no cloud, 100%
 
 espctl is an arduino header only library for esp32 along with a python package and web serial browser client which are connected by a shared line based serial protocol ( read below for more info about the espctl protocol)
 
-
+the python package could be used to colled data frames via pandas and matplotlib to plot the live graphs along with regular CRUD operations
 ## Quick Start
 
-### Arduino library
+### 1. Arduino library
 copy `firmware/espctl.h` to your sketch and:
 ```cpp
 #include "espctl.h"
@@ -24,6 +24,30 @@ void loop(){
     board.update // MUST BE CALLED EVERY LOOP
 }
 ```
+
+you can also refer to [examples/blink.ino](examples/blink.ino) for a working sketch
+
+### 2. Python client
+```sh
+cd python && pip install -e .
+```
+```python
+from espctl import ESPCtl
+import time
+board = ESPCtl()
+print(board.bpm) #write
+board.threshold = 120 #read
+
+with board.record("session.csv"):
+    time.sleep(60)
+df = board.to_df() # pandas df
+board.plot("bpm") # matplotlive
+```
+
+### 3. Web client
+open `web/index.html` and use it directly to connect to the board
+
+
 
 
 ## espctl protocol:
