@@ -68,8 +68,7 @@ open `web/index.html` and use it directly to connect to the board
 
 web interface:
 
-
-
+<img width="747" height="813" alt="Screenshot 2026-07-16 at 11 32 31 AM" src="https://github.com/user-attachments/assets/2d17457f-61e0-426c-bef2-98f1e3fb0d58" />
 
 
 ## espctl protocol:
