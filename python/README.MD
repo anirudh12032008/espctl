@@ -46,7 +46,6 @@ void loop(){
 you can also refer to [examples/blink.ino](examples/blink.ino) for a working sketch
 
 ### 2. Python client
-[espctl of pypi](https://pypi.org/project/espctl/)
 ```sh
 pip install espctl
 ```
