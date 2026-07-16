@@ -47,7 +47,7 @@ you can also refer to [examples/blink.ino](examples/blink.ino) for a working ske
 
 ### 2. Python client
 ```sh
-cd python && pip install -e .
+pip install espctl
 ```
 ```python
 from espctl import ESPCtl
