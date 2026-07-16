@@ -12,7 +12,7 @@
 
 
 
-// gng I am doing a C library for the first time please don't judge me </3
+// this is my first time working on a C library, please don't judge me </3
 
 class ESPCtl {
 
