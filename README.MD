@@ -5,8 +5,25 @@
 espctl is an arduino header only library for esp32 along with a python package and web serial browser client which are connected by a shared line based serial protocol ( read below for more info about the espctl protocol)
 
 the python package could be used to colled data frames via pandas and matplotlib to plot the live graphs along with regular CRUD operations
-## Quick Start
 
+## Why ESPCTL?
+reflashing your board each time and waiting for arduino to compile everything??
+trying to mentally plot a wall of `Serial.println` numbers. and nobody needs an account or cloud dashboard to drag a slider on a project that's liteterally six inches from their laptop plugged into the same usb cable
+
+ESPCTL fixes all of that with one header file. You declare your controls in firmware, plug in, and a live plot + working widgets just show up in Python, in your browser, whatever. 
+No setup, no cap.
+
+## Features
+
+- easy one line setup - `#include "espctl.h"`
+- auto generated web ui
+- easy native python access - widgets are plain attributes: `board.threshold = 120`
+- data logging - record data into a csv or pull a pandas DataFrame
+- live plotting - matplotlib for live plots of data
+- gpio read/write - access gpio directly without tweaking the firware
+- browser flashing - flash your mcu directly from the browser
+
+## Quick Start
 ### 1. Arduino library
 copy `firmware/espctl.h` to your sketch and:
 ```cpp
