@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>espctl - flash</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>espctl - flash firmware</h1>
+    <p><a href="index.html" >control panel</a></p>
+    <div class="widget">
+        <label for="">Firmware .bin: <input type="file" id="binFile" accept=".bin"></label>
+    </div>
+    <div class="widget">
+        <label for="">Flash offset: <input type="text" id="offset" value="0x10000" size="8"></label>
+    </div>
+    <button id="flashBtn">Connect - Flash</button>
+    <h2>Logs</h2>
+    <pre id="monitor"></pre>
+    <script type="module" src="flash.js"></script>
+</body>
+</html>

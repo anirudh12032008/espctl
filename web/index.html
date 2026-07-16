@@ -8,15 +8,14 @@
 <!-- had to remove tailwind to make it functional offline, feel free to use tailwind if u need better styling -->
 </head>
 <body class="m-4">
-    <h1 class="text-3xl font-bold">ESPCTL</h1>
-
-        <button id="connectBtn" class="border px-2 py-1">Connect</button>
+    <h1>ESPCTL</h1>
+        <button id="connectBtn">Connect</button>
         <span id="status">Disconnected</span>
+        <p><a href="flash.html">Flash</a></p>
         <h2>Controls</h2>
         <div id="widgets"></div>
         <h2>Plots</h2>
         <canvas id="plot" width="640" height="200"></canvas>
-
         <h2>Monitor</h2>
         <pre id="monitor"></pre>
         <script src="app.js"></script>

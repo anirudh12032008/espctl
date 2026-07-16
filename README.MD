@@ -1,5 +1,6 @@
 # ESPCTL
-your ESP32 controllable from Python and your browser. No install, no cloud, 100% locally on your machine
+> your ESP32 controllable from Python and your browser. No install, no cloud, 100% locally on your machine
+> add one line to your firmware and get a live data + control panel
 
 espctl is an arduino header only library for esp32 along with a python package and web serial browser client which are connected by a shared line based serial protocol ( read below for more info about the espctl protocol)
 
@@ -77,3 +78,23 @@ normal log
 !<id>,<value> -> set a widget
 ><pin>,<0|1> -> write GPIO
 <<pin> -> read GPIO
+```
+
+## Contributing
+
+Issues and PRs welcome.
+Good first contributions: testing on more ESP32 dev boards and reporting port detection quirks, imporving error messages, add more example sketches, add more widgets
+
+## Scope (v0.1)
+Supported: ESP32(classic) only
+Widgets - slider, toggle, and value
+Live plots - only 1
+
+## future plans (v0.2)
+other chips - esp8266, S3, C3
+more widgets
+multi plot
+
+
+## License 
+MIT

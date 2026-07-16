@@ -1,2 +1,2 @@
 from setuptools import setup, find_packages
-setup(name="espctl", version="0.1.0", description="Control and mointor an ESP32", packages=find_packages(), install_requires=["pyserial", "pandas", "matplotlib"], python_requires=">=3.8" )
+setup(name="espctl", version="0.1.0", description="Control and mointor an ESP32 over serial", packages=find_packages(), install_requires=["pyserial", "pandas", "matplotlib"], python_requires=">=3.8" )
