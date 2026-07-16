@@ -66,6 +66,9 @@ board.plot("bpm") # matplotlive
 ### 3. Web client
 open `web/index.html` and use it directly to connect to the board
 
+web interface:
+
+
 
 
 
